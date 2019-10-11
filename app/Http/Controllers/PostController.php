@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use App\Biodata;
-class BiodataController extends Controller
+use App\Post;
+
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -11,8 +14,8 @@ class BiodataController extends Controller
      */
     public function index()
     {
-        $biodatas = Biodata::latest()->paginate(5);
-        return view('biodata.index', compact('biodatas'))
+        $posts = Post::latest()->paginate(5);
+        return view('post.index', compact('posts'))
                   ->with('i', (request()->input('page',1) -1)*5);
     }
 
@@ -23,7 +26,7 @@ class BiodataController extends Controller
      */
     public function create()
     {
-        return view('biodata.create');
+        return view('post.create');
     }
 
     /**
@@ -34,14 +37,14 @@ class BiodataController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-          'namaSiswa' => 'required',
-          'alamatSiswa' => 'required'
-        ]);
+      $request->validate([
+        'title' => 'required',
+        'body' => 'required'
+      ]);
 
-        Biodata::create($request->all());
-        return redirect()->route('biodata.index')
-                        ->with('success', 'new biodata created successfully');
+      Post::create($request->all());
+      return redirect()->route('post.index')
+                      ->with('success', 'new post created successfully');
     }
 
     /**
@@ -52,8 +55,8 @@ class BiodataController extends Controller
      */
     public function show($id)
     {
-        $biodata = Biodata::find($id);
-        return view('biodata.detail', compact('biodata'));
+      $post = Post::find($id);
+      return view('post.detail', compact('post'));
     }
 
     /**
@@ -64,8 +67,8 @@ class BiodataController extends Controller
      */
     public function edit($id)
     {
-        $biodata = Biodata::find($id);
-        return view('biodata.edit', compact('biodata'));
+      $post = Post::find($id);
+      return view('post.edit', compact('post'));
     }
 
     /**
@@ -78,15 +81,15 @@ class BiodataController extends Controller
     public function update(Request $request, $id)
     {
       $request->validate([
-        'namaSiswa' => 'required',
-        'alamatSiswa' => 'required'
+        'title' => 'required',
+        'body' => 'required'
       ]);
-      $biodata = Biodata::find($id);
-      $biodata->namaSiswa = $request->get('namaSiswa');
-      $biodata->alamatSiswa = $request->get('alamatSiswa');
-      $biodata->save();
-      return redirect()->route('biodata.index')
-                      ->with('success', 'Biodata siswa updated successfully');
+      $post = Post::find($id);
+      $post->title = $request->get('title');
+      $post->body = $request->get('body');
+      $post->save();
+      return redirect()->route('post.index')
+                      ->with('success', 'Post updated successfully');
     }
 
     /**
@@ -97,9 +100,9 @@ class BiodataController extends Controller
      */
     public function destroy($id)
     {
-        $biodata = Biodata::find($id);
-        $biodata->delete();
-        return redirect()->route('biodata.index')
-                        ->with('success', 'Biodata siswa deleted successfully');
+      $post = Post::find($id);
+      $post->delete();
+      return redirect()->route('post.index')
+                      ->with('success', 'Post deleted successfully');
     }
 }

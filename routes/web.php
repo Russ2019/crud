@@ -19,3 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 route::resource('biodata','BiodataController');
+route::resource('post','PostController');

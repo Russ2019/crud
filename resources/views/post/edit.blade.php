@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <h3>New Biodata Siswa</h3>
+        <h3>Edit Post</h3>
       </div>
     </div>
 
@@ -18,24 +18,24 @@
       </div>
     @endif
 
-    <form action="{{route('biodata.store')}}" method="post">
+    <form action="{{route('post.update',$post->id)}}" method="post">
       @csrf
+      @method('PUT')
       <div class="row">
         <div class="col-md-12">
-          <strong>Nama Siswa :</strong>
-          <input type="text" name="namaSiswa" class="form-control" placeholder="Nama Siswa">
+          <strong>Title :</strong>
+          <input type="text" name="title" class="form-control" value="{{$post->title}}">
         </div>
         <div class="col-md-12">
-          <strong>Alamat Siswa :</strong>
-          <textarea class="form-control" placeholder="Alamat Siswa" name="alamatSiswa" rows="8" cols="80"></textarea>
+          <strong>Body :</strong>
+          <textarea class="form-control" name="body" rows="8" cols="80">{{$post->body}}</textarea>
         </div>
 
         <div class="col-md-12">
-          <a href="{{route('biodata.index')}}" class="btn btn-sm btn-success">Back</a>
+          <a href="{{route('post.index')}}" class="btn btn-sm btn-success">Back</a>
           <button type="submit" class="btn btn-sm btn-primary">Submit</button>
         </div>
       </div>
     </form>
-
   </div>
 @endsection
